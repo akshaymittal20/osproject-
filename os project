@@ -1,0 +1,55 @@
+#include<stdio.h>
+struct Process_Details
+{
+int aquired,requirement;
+int key;
+};
+int main()
+{
+int p,j,rec,i;
+int total_acq=0;
+printf("Enter the Number of Processes\n");
+scanf("%d",&p);
+int seq_arr[p];
+printf("\nEnter The Number of Resources\n");
+scanf("%d",&rec);
+struct Process_Details P[p];
+for(i=0;i<p;i++)
+{
+P[i].key=0;
+printf("Enter the resource requirement for process P%d\n",i+1);
+scanf("%d",&P[i].requirement);
+printf("Enter the resource already aquired for process P%d\n",i+1);
+scanf("%d",&P[i].aquired);
+total_acq+=P[i].aquired;
+}
+rec-=total_acq;
+int count=0;
+for(j=0;j<p;j++)
+{
+for(i=0;i<p;i++)
+{
+ if(P[i].requirement<=rec && P[i].key==0)
+ {
+    rec+=P[i].aquired;
+    seq_arr[count]=i+1;
+    count++;
+    P[i].key=1;
+ }
+}
+}
+if(count<p)
+{
+printf("System is not in Safe State\n");
+}
+else
+{
+    printf("System is in Safe State\n");
+    printf("Order of Execution is:\n");
+for(i=0;i<p;i++)
+printf("P%d\t",seq_arr[i]);
+}
+return 0;
+}
+
+
